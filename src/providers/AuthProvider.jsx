@@ -1,6 +1,7 @@
 import React, { Component, createContext } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import { login, signOut } from '../config'
 
 export const AuthContext = createContext({})
 
@@ -17,16 +18,13 @@ export class AuthProvider extends Component {
 
     this.removeListener = firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user.providerData)
         this.setState({
           auth: true,
           loading: false,
           user: user.providerData[0]
         })
       } else {
-        this.setState({
-          loading: false
-        })
+        this.setState({ loading: false })
       }
     })
   }
@@ -36,17 +34,11 @@ export class AuthProvider extends Component {
   }
 
   onLogin = () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
     this.setState({ loading: true })
 
-    firebase
-      .auth()
-      .signInWithRedirect(provider)
+    login()
       .then(() => {
-        this.setState({
-          loading: false,
-          auth: true
-        })
+        this.setState({ loading: false, auth: true })
       })
       .catch(error => {
         this.setState({ loading: false, error: error })
@@ -54,9 +46,7 @@ export class AuthProvider extends Component {
   }
 
   onSignOut = () => {
-    firebase
-      .auth()
-      .signOut()
+    signOut()
       .then(() => {
         this.setState({ auth: false, user: null })
       })

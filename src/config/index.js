@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import 'firebase/auth'
 
 const config = {
   apiKey: 'AIzaSyAEogoe65r1S4oLRcNAJuiSb_wLbEgOTZU',
@@ -11,4 +12,12 @@ const config = {
 
 const init = () => firebase.initializeApp(config)
 
-export { init }
+const login = () => {
+  const provider = new firebase.auth.GoogleAuthProvider()
+
+  return firebase.auth().signInWithRedirect(provider)
+}
+
+const signOut = () => firebase.auth().signOut()
+
+export { init, login, signOut }
