@@ -18,19 +18,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 10px solid color(primary);
+    border-bottom: 10px solid color(primary);
+
+    @include from($medium) {
+      border-bottom: none;
+      border-right: 10px solid color(primary);
+    }
   }
 
   &__image {
     object-fit: cover;
-    height: 100vh;
+    height: 50vh;
 
     @include from($medium) {
+      height: 100vh;
     }
   }
 
   &__button {
-    text-transform: uppercase;
     margin: auto;
     display: block;
 

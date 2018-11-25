@@ -14,6 +14,7 @@
   transition: background-color $transform-time $easing;
   border-radius: 3px;
   text-shadow: 0 0.5px 1px color(black);
+  text-transform: uppercase;
 
   @include backgroundHover(color(primary));
 
