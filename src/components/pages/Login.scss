@@ -1,0 +1,34 @@
+@import '../shared/variables.scss';
+@import '../shared/mixins.scss';
+
+.login {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  @include from($medium) {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+
+  &__image {
+    height: 50vh;
+    object-fit: cover;
+
+    @include from($medium) {
+      height: 100%;
+    }
+  }
+
+  &__button {
+    text-transform: uppercase;
+    margin: auto;
+    display: block;
+
+    @include from($medium) {
+      max-height: 50vh;
+      justify-self: center;
+      align-self: center;
+    }
+  }
+}
