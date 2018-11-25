@@ -1,22 +1,24 @@
-import React, { useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import Page from './Page'
+import Header from '../organisms/Header'
+import ProfileInfo from '../organisms/ProfileInfo'
 import { AuthContext as Context } from '../../providers/AuthProvider'
-import Button from '../atoms/Button'
+import './Dashboard.scss'
+import Tuits from '../templates/Tuits'
 
 const Dashboard = () => {
-  const { onSignOut, user } = useContext(Context)
+  const { user } = useContext(Context)
 
   return (
-    <Page>
-      <h1>Dashboard</h1>
-      <Button onClick={() => onSignOut()} classN='button--secondary'>
-        Sign Out
-      </Button>
-      <strong>
-        <pre>Hello. </pre>{user.displayName}
-      </strong>
-      <img style={{ width: '200px' }} src={user.photoURL} alt='avatar' />
-    </Page>
+    <Fragment>
+      <Header />
+      <Page>
+        <div className='dashboard'>
+          <ProfileInfo {...user} />
+          <Tuits {...user} />
+        </div>
+      </Page>
+    </Fragment>
   )
 }
 

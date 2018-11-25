@@ -25,7 +25,7 @@ const Login = () => {
       <div ref={tiltRef} className='login__tilt'>
         <img className='login__image' src={image} alt='Login background' />
       </div>
-      <Button classN='login__button' onClick={() => onLogin()}>Login</Button>
+      <Button theme='login__button' onClick={() => onLogin()}>Login</Button>
     </div>
   )
 }
