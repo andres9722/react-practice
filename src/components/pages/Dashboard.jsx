@@ -15,7 +15,7 @@ const Dashboard = () => {
       <strong>
         <pre>Hello. </pre>{user.displayName}
       </strong>
-      <img style={{ width: '200px' }} src={user.photoURL} alt='photo' />
+      <img style={{ width: '200px' }} src={user.photoURL} alt='avatar' />
     </Page>
   )
 }

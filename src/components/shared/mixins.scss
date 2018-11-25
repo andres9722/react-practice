@@ -6,6 +6,6 @@
 
 @mixin backgroundHover($property) {
   &:hover {
-    background-color: darken($property, 20);
+    background-color: darken($property, 10);
   }
 }
