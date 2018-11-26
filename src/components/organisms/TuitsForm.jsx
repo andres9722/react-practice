@@ -15,7 +15,14 @@ const TuitsForm = ({ photoURL, displayName, uid }) => {
     e.preventDefault()
     const form = e.target
     const text = form.tuit.value
-    const tuit = { text, displayName, photoURL, uid, date: Date.now() }
+    const tuit = {
+      text,
+      displayName,
+      photoURL,
+      uid,
+      date: Date.now(),
+      likes: []
+    }
 
     database
       .collection('tuits')

@@ -9,19 +9,17 @@ const App = () => {
   return (
     <AuthProvider>
       <AuthConsumer>
-        {({ auth, loading }) => {
-          return (
-            <Fragment>
-              {loading === true
-                ? <div className='loader--full'>
-                  <Loader />
-                </div>
-                : <Router>
-                  <Routes auth={auth} />
-                </Router>}
-            </Fragment>
-          )
-        }}
+        {({ auth, loading }) => (
+          <Fragment>
+            {loading === true
+              ? <div className='loader--full'>
+                <Loader />
+              </div>
+              : <Router>
+                <Routes auth={auth} />
+              </Router>}
+          </Fragment>
+        )}
       </AuthConsumer>
     </AuthProvider>
   )

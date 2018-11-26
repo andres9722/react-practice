@@ -12,20 +12,23 @@ const TuitsList = () => {
   database.settings(settings)
 
   useEffect(() => {
-    database.collection('tuits').onSnapshot(querySnapshot => {
-      let arr = []
-      querySnapshot.forEach(function (doc) {
-        arr.push(doc.data())
-        setTuits(arr)
+    database
+      .collection('tuits')
+      .orderBy('date', 'desc')
+      .onSnapshot(querySnapshot => {
+        let arr = []
+        querySnapshot.forEach(function (doc) {
+          arr.push({ ...doc.data(), id: doc.id })
+          setTuits(arr)
+        })
       })
-    })
   }, [])
 
   return (
     <div className='tuits__container'>
       <ul className='tuits__list'>
         {!tuits.length && <Loader />}
-        {tuits.map(tuit => <Tuit key={tuit.text} {...tuit} />)}
+        {tuits.map((tuit, i) => <Tuit key={i} {...tuit} />)}
       </ul>
     </div>
   )

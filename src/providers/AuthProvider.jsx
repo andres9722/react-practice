@@ -18,7 +18,6 @@ export class AuthProvider extends Component {
 
     this.removeListener = firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user)
         this.setState({
           auth: true,
           loading: false,

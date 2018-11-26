@@ -32,4 +32,11 @@
     background: color(terciary);
     @include backgroundHover(color(terciary));
   }
+
+  &--like {
+    background: transparent;
+    width: 16px;
+    padding: 0;
+    @include backgroundHover(transparent);
+  }
 }
