@@ -21,7 +21,8 @@ const TuitsForm = ({ photoURL, displayName, uid }) => {
       photoURL,
       uid,
       date: Date.now(),
-      likes: []
+      likes: [],
+      retuits: []
     }
 
     database

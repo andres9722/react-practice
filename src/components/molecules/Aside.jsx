@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import Input from '../atoms/Input'
+import { Link } from 'react-router-dom'
 import { AuthContext as Context } from '../../providers/AuthProvider'
 import Button from '../atoms/Button.jsx'
 import './Aside.scss'
@@ -10,7 +11,10 @@ const Aside = () => {
 
   const handleShowMenu = () => setShowMenu(!showMenu)
 
-  let username = user.displayName.split(' ').slice(0, 2).join(' ')
+  let username = user.displayName
+    .split(' ')
+    .slice(0, 2)
+    .join(' ')
 
   return (
     <aside className='aside'>
@@ -30,13 +34,17 @@ const Aside = () => {
           alt='avatar'
           onClick={handleShowMenu}
         />
-        {showMenu &&
+        {showMenu && (
           <div className='aside__profile-menu'>
-            <p className='aside__profile-username'> {username} </p>
-            <Button onClick={() => onSignOut()}>
-              Sign out
-            </Button>
-          </div>}
+            <Link
+              className='aside__profile-username'
+              to={`/dashboard/profile/${username.trim()}`}
+            >
+              {username}
+            </Link>
+            <Button onClick={() => onSignOut()}>Sign out</Button>
+          </div>
+        )}
       </div>
     </aside>
   )

@@ -3,14 +3,18 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import Error404 from '../pages/Error404'
 import Dashboard from '../pages/Dashboard'
 import Login from '../pages/Login'
+import Profile from '../pages/Profile'
 
 const PrivateRoute = ({ component: Component, authed, rest }) => (
   <Route
     {...rest}
     render={props =>
-      (authed === true
-        ? <Component {...props} />
-        : <Redirect to={{ pathname: '/', state: { from: props.location } }} />)}
+      authed === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+      )
+    }
   />
 )
 
@@ -18,9 +22,8 @@ const PublicRoute = ({ component: Component, authed, rest }) => (
   <Route
     {...rest}
     render={props =>
-      (authed === false
-        ? <Component {...props} />
-        : <Redirect to='/dashboard' />)}
+      authed === false ? <Component {...props} /> : <Redirect to='/dashboard' />
+    }
   />
 )
 
@@ -33,6 +36,12 @@ const Routes = ({ auth }) => {
         exact
         authed={auth}
         component={Dashboard}
+      />
+      <PrivateRoute
+        path='/dashboard/profile/:id'
+        exact
+        authed={auth}
+        component={Profile}
       />
       <Route component={Error404} />
     </Switch>

@@ -6,15 +6,22 @@ import TimeAgo from 'react-timeago'
 import Button from '../atoms/Button'
 import heart from '../../assets/heart.png'
 import like from '../../assets/like.png'
+import noRetuit from '../../assets/exchange (1).png'
+import retuit from '../../assets/exchange.png'
 import { AuthContext as Context } from '../../providers/AuthProvider'
+import InteractionTuitsInfo from '../atoms/InteractionTuitsInfo'
 
-const Tuit = ({ text, photoURL, displayName, date, likes, id }) => {
+const Tuit = ({ text, photoURL, displayName, date, likes, retuits, id }) => {
   const { user } = useContext(Context)
   const database = firebase.firestore()
   const settings = { timestampsInSnapshots: true }
   database.settings(settings)
 
-  const find = likes.find(like => like.displayName === user.displayName)
+  const findLikes = likes =>
+    likes.find(like => like.displayName === user.displayName)
+
+  const findLikesTuit = findLikes(likes)
+  const findRetuits = findLikes(retuits)
 
   const handleAddLike = async id => {
     const docRef = database.collection('tuits').doc(id)
@@ -22,16 +29,36 @@ const Tuit = ({ text, photoURL, displayName, date, likes, id }) => {
     try {
       await database.runTransaction(async transaction => {
         const sfDoc = await transaction.get(docRef)
-        let newLikes = sfDoc.data().likes
-        let find = newLikes.find(like => like.displayName === user.displayName)
+        let likes = sfDoc.data().likes
+        let find = findLikes(likes)
         if (find) {
-          newLikes = newLikes.filter(
+          likes = likes.filter(like => like.displayName !== user.displayName)
+        } else {
+          likes.push({ displayName: user.displayName })
+        }
+        transaction.update(docRef, { likes: likes })
+      })
+    } catch (error) {
+      console.log('Transaction failed: ', error)
+    }
+  }
+
+  const handleRetuit = async () => {
+    const docRef = database.collection('tuits').doc(id)
+
+    try {
+      await database.runTransaction(async transaction => {
+        const sfDoc = await transaction.get(docRef)
+        let retuits = sfDoc.data().retuits
+        let find = findLikes(retuits)
+        if (find) {
+          retuits = retuits.filter(
             like => like.displayName !== user.displayName
           )
         } else {
-          newLikes.push({ displayName: user.displayName })
+          retuits.push({ displayName: user.displayName })
         }
-        transaction.update(docRef, { likes: newLikes })
+        transaction.update(docRef, { retuits: retuits })
       })
     } catch (error) {
       console.log('Transaction failed: ', error)
@@ -43,15 +70,32 @@ const Tuit = ({ text, photoURL, displayName, date, likes, id }) => {
       <img className='tuit__img' src={photoURL} alt='avatar' />
       <div className='tuit__info'>
         <h5 className='tuit__username'>
-          {displayName} <TimeAgo date={date} />
+          {displayName}
+          <TimeAgo date={date} />
         </h5>
         <p className='tuit__text'>{text}</p>
-        <Button theme='button--like' onClick={() => handleAddLike(id)}>
-          {find
-            ? <img className='tuit__like' src={like} alt='like' />
-            : <img className='tuit__like' src={heart} alt='like' />}
-        </Button>
-        <span className='tuit__like-count'>{likes && likes.length} </span>
+        <div className='tuit__details'>
+          <Button theme='button--like' onClick={() => handleAddLike(id)}>
+            {findLikesTuit ? (
+              <img className='tuit__like' src={like} alt='like' />
+            ) : (
+              <img className='tuit__like' src={heart} alt='like' />
+            )}
+          </Button>
+          <Button theme='button--like' onClick={() => handleRetuit(id)}>
+            {findRetuits ? (
+              <img className='tuit__like' src={retuit} alt='retuit' />
+            ) : (
+              <img className='tuit__like' src={noRetuit} alt='retuit' />
+            )}
+          </Button>
+        </div>
+        <InteractionTuitsInfo
+          likes={likes}
+          retuits={retuits}
+          classNameLikes='tuit__like-count'
+          classNameRetuits='tuit__like-countrt'
+        />
       </div>
     </div>
   )

@@ -1,10 +1,12 @@
-@import '../shared/typography.scss';
-@import '../shared/variables.scss';
-@import '../shared/mixins.scss';
+@import "../shared/typography.scss";
+@import "../shared/variables.scss";
+@import "../shared/mixins.scss";
 
 .profile {
   padding: 8px;
   border-radius: 5px;
+  max-width: 250px;
+  min-width: 250px;
 
   &__username {
     font-weight: 700;
